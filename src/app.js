@@ -1,12 +1,12 @@
 const express = require('express')
 const app = express();
-const codes = require("./codes")
+const { HTTP, MESSAGES } = require("./constants")
 
 app.use(express.json());
 
 app.use(function (err, req, res, next) {
-  if (err instanceof SyntaxError && err.status === codes.BAD_REQUEST && "body" in err) {
-    res.status(codes.BAD_REQUEST).json(error(codes.JSON_ERROR, err.toString()));
+  if (err instanceof SyntaxError && err.status === HTTP.BAD_REQUEST && "body" in err) {
+    res.status(HTTP.BAD_REQUEST).json(error(MESSAGES.JSON_ERROR, err.toString()));
   } else next();
 });
 
@@ -15,8 +15,8 @@ app.get('/health-check', function (req, res) {
 });
 
 
-app.listen(codes.PORT, function () {
-  console.log(codes.RUNNING_SERVER);
+app.listen(HTTP.PORT, function () {
+  console.log(MESSAGES.RUNNING_SERVER);
 });
 
 const error = (msg, detail) => {
