@@ -37,7 +37,9 @@
     "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.js",
-      "!src/app.js"
+      "!src/app.js",
+      "!src/store/**/*.js",
+      "!src/config/**/*.js"
     ],
     "coverageThreshold": {
       "global": {
@@ -52,7 +54,11 @@
     ]
   },
   "dependencies": {
-    "express": "4.17.1"
+    "camelobj": "0.0.7",
+    "dotenv": "8.2.0",
+    "express": "4.17.1",
+    "pg": "8.5.1",
+    "sequelize": "6.3.5"
   },
   "husky": {
     "hooks": {
