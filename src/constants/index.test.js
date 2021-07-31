@@ -1,7 +1,6 @@
-const { HTTP, MESSAGES} = require('.');
+const { HTTP, MESSAGES } = require('.');
 
 describe('constants', () => {
-
   it('should return string values for constants.MESSAGES', () => {
     const keys = Object.keys(MESSAGES);
     let k = 0;
