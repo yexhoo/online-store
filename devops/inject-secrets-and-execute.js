@@ -1,13 +1,13 @@
 require('dotenv').config({
-  path: '../.env',
+  path: './.env',
 });
 
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
-const parameterStore = require('../src/store');
+const parameterStore = require('../src/database/store');
 const { throwIfIsUnsafelyRunningProduction } = require('./utils');
-const Logger = require('../src/utils/logger');
+const Logger = require('../src/database/utils/logger');
 
 const parseCommandArgument = (argument) => {
   if (!argument) {

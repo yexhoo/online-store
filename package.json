@@ -31,7 +31,9 @@
     "eslint-plugin-import": "2.22.1",
     "husky": "3.0.5",
     "jest": "26.0.1",
-    "nodemon": "2.0.2"
+    "nodemon": "2.0.2",
+    "sequelize-cli": "6.2.0",
+    "uuid-by-string": "3.0.2"
   },
   "jest": {
     "collectCoverage": true,
@@ -39,7 +41,8 @@
       "src/**/*.js",
       "!src/app.js",
       "!src/store/**/*.js",
-      "!src/config/**/*.js"
+      "!src/config/**/*.js",
+      "!src/database/**/*.js"
     ],
     "coverageThreshold": {
       "global": {

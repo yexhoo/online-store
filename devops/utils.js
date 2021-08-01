@@ -1,5 +1,5 @@
 const hasProductionFlag = () => process.argv.length > 2 && process.argv.includes('--production');
-const Logger = require('../src/utils/logger');
+const Logger = require('../src/database/utils/logger');
 
 const throwIfIsUnsafelyRunningProduction = () => {
   const isProduction = process.env.NODE_ENV === 'production';
