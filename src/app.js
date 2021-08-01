@@ -1,8 +1,8 @@
 const express = require('express');
-const Logger = require('./utils/logger');
+const Logger = require('./database/utils/logger');
 
 const app = express();
-const { HTTP, MESSAGES } = require('./constants');
+const { HTTP, MESSAGES } = require('./constant');
 
 app.use(express.json());
 
