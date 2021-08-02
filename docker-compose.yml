@@ -2,6 +2,7 @@
 version: '3.7'
 services:
   app:
+    container_name: online-store-api
     build: .
     depends_on:
       - database
@@ -14,8 +15,11 @@ services:
     volumes:
       - .:/app/
       - /app/node_modules
+    networks:
+      - online-store
 
   database:
+    container_name: online-store-database
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     image: postgres
@@ -26,3 +30,9 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     env_file:
       - ./.env
+    networks:
+      - online-store
+
+networks:
+  online-store:
+    driver: bridge
