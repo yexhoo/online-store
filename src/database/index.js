@@ -57,5 +57,6 @@ module.exports.databaseFactory = (connectionInfo, logger = console) => {
     disconnect,
     getModels,
     repositories,
+    sequelize,
   };
 };
