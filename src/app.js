@@ -4,7 +4,8 @@ const Logger = require('./database/utils/logger');
 const app = express();
 const { HTTP, MESSAGES } = require('./constant');
 
-const User = require('./modules/user');
+const Signup = require('./modules/auth/signup');
+const Login = require('./modules/auth/login');
 
 app.use(express.json());
 
@@ -12,10 +13,17 @@ app.get('/health-check', (req, res) => {
   res.status(200).json({ status: 'ok' });
 });
 
-app.post('/user', (req, res) => {
+app.post('/auth/signup', (req, res) => {
   const { body: { user } } = req;
-  return User.create(user)
+  return Signup.create(user)
     .then((data) => { res.status(HTTP.CREATED).json(data); })
+    .catch((err) => res.status(err.code).send({ error: err.message }));
+});
+
+app.post('/auth/login', (req, res) => {
+  const { body: { user } } = req;
+  return Login.validate(user)
+    .then((data) => { res.status(HTTP.OK).json(data); })
     .catch((err) => res.status(err.code).send({ error: err.message }));
 });
 
