@@ -1,8 +1,10 @@
-const Logger = require('../utils/logger');
+const userRepositoryFactory = require('./store/user-repository');
 
 const repositoryFactory = ({ models }) => {
-  Logger.info(models);
-  return {};
+  const userRepository = userRepositoryFactory(models);
+  return {
+    userRepository,
+  };
 };
 
 module.exports = repositoryFactory;

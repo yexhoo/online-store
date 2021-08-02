@@ -4,18 +4,19 @@ const Logger = require('./database/utils/logger');
 const app = express();
 const { HTTP, MESSAGES } = require('./constant');
 
+const User = require('./modules/user');
+
 app.use(express.json());
-
-const error = (msg, detail) => ({ error: msg, detail: detail || '' });
-
-app.use((err, req, res, next) => {
-  if (err instanceof SyntaxError && err.status === HTTP.BAD_REQUEST && 'body' in err) {
-    res.status(HTTP.BAD_REQUEST).json(error(MESSAGES.JSON_ERROR, err.toString()));
-  } else next();
-});
 
 app.get('/health-check', (req, res) => {
   res.status(200).json({ status: 'ok' });
+});
+
+app.post('/user', (req, res) => {
+  const { body: { user } } = req;
+  return User.create(user)
+    .then((data) => { res.status(HTTP.CREATED).json(data); })
+    .catch((err) => res.status(err.code).send({ error: err.message }));
 });
 
 app.listen(HTTP.PORT, () => {

@@ -1,5 +1,5 @@
 require('dotenv').config({
-  path: './.env',
+  path: '../.env',
 });
 
 const util = require('util');
@@ -32,7 +32,7 @@ const injectEnvironmentVariables = async () => {
 
   Logger.info(`Injecting DB connection information for DB ${database} on ${host} (${process.env.NODE_ENV}).`);
 
-  process.env.DB_HOST = host;
+  process.env.DB_HOST = host === 'host.docker.internal' ? 'localhost' : host;
   process.env.DB_PORT = port;
   process.env.DB_DATABASE = database;
   process.env.DB_USERNAME = username;

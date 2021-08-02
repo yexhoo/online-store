@@ -42,7 +42,8 @@
       "!src/app.js",
       "!src/store/**/*.js",
       "!src/config/**/*.js",
-      "!src/database/**/*.js"
+      "!src/database/**/*.js",
+      "!src/modules/**/*.js"
     ],
     "coverageThreshold": {
       "global": {

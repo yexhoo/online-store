@@ -15,14 +15,15 @@ const validate = (connectionInfo, logger) => {
   }
 };
 
-const databaseFactory = (connectionInfo, logger = console) => {
+module.exports.databaseFactory = (connectionInfo, logger = console) => {
   validate(connectionInfo, logger);
   const config = configFactory(connectionInfo, logger);
   const sequelize = sequelizeFactory(config.options);
+  const { database } = connectionInfo;
 
   const connect = async () => {
     await sequelize.authenticate();
-    logger.debug('Connected to Postgres DB', null, [POSTGRES]);
+    logger.debug('Connected to Postgres DB', database, [POSTGRES]);
 
     if (config.forceSync) {
       const schemaPromises = [];
@@ -35,16 +36,16 @@ const databaseFactory = (connectionInfo, logger = console) => {
 
       await Promise.all(schemaPromises);
 
-      logger.debug('Dropping all tables and creating them again', null, [POSTGRES]);
+      logger.debug('Dropping all tables and creating them again', database, [POSTGRES]);
       await sequelize.sync({ force: true });
-      logger.debug('Done re-creating database', null, [POSTGRES]);
+      logger.debug('Done re-creating database', database, [POSTGRES]);
     }
   };
 
   const disconnect = async () => {
     await sequelize.close();
 
-    logger.debug('Disconnected from Postgres DB', null, [POSTGRES]);
+    logger.debug('Disconnected from Postgres DB', database, [POSTGRES]);
   };
 
   const getModels = () => sequelize.models;
@@ -58,5 +59,3 @@ const databaseFactory = (connectionInfo, logger = console) => {
     repositories,
   };
 };
-
-module.exports = databaseFactory;
