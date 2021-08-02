@@ -4,6 +4,8 @@ const Schema = Object.freeze({
 
 const Store = Object.freeze({
   USER: 'User',
+  ORDER: 'Order',
+  PRODUCT: 'Product',
 });
 
 const Table = Object.freeze({
