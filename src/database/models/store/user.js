@@ -16,7 +16,14 @@ const attributes = getBaseAttributes({
   },
 });
 
+const associate = ({
+  User, Order,
+}) => {
+  User.hasMany(Order, { foreignKey: 'userId' });
+};
+
 module.exports = {
   modelName,
   attributes,
+  associate,
 };
