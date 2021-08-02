@@ -1,5 +1,5 @@
-const Factory = require('../../database/factory');
-const { BadRequest } = require('../common/errors');
+const Factory = require('../../../database/factory');
+const { BadRequest } = require('../../common/errors');
 
 module.exports.create = async (user) => {
   const { repositories: { userRepository } } = await Factory.database();
