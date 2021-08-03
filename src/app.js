@@ -8,11 +8,25 @@ const Signup = require('./modules/auth/signup');
 const Login = require('./modules/auth/login');
 const Order = require('./modules/order');
 const Product = require('./modules/product');
+const { getTokenFromHeaders, verify, unauthenticated } = require('./modules/common/utils/jwt');
 
 app.use(express.json());
 
-app.get('/v1/health-check', (req, res) => {
-  res.status(200).json({ status: 'ok' });
+app.use('/v1/order', (req, res, next) => {
+  const token = getTokenFromHeaders(req.headers.authorization);
+  if (!token) {
+    unauthenticated(res, HTTP.FORBIDDEN);
+  } else {
+    verify(token)
+      .then((response) => {
+        if (response) {
+          req.email = response.email;
+          next();
+        } else {
+          unauthenticated(res, HTTP.FORBIDDEN);
+        }
+      });
+  }
 });
 
 app.post('/v1/auth/signup', (req, res) => {
@@ -30,8 +44,8 @@ app.post('/v1/auth/login', (req, res) => {
 });
 
 app.post('/v1/order', (req, res) => {
-  const { body: { order } } = req;
-  return Order.create(order)
+  const { body: { order }, email } = req;
+  return Order.create(order, email)
     .then((data) => { res.status(HTTP.CREATED).json(data); })
     .catch((err) => res.status(err.code).send({ error: err.message }));
 });
