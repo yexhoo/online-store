@@ -9,6 +9,6 @@ module.exports.create = async (user) => {
   if (exist) {
     throw new BadRequest(`User ${email} already exists.`);
   }
-
-  return userRepository.create(user);
+  const persisted = await userRepository.create(user);
+  return { user: persisted };
 };
