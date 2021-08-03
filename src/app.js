@@ -1,16 +1,18 @@
 const express = require('express');
+const nocache = require('nocache');
 const Logger = require('./database/utils/logger');
 
 const app = express();
 const { HTTP, MESSAGES } = require('./constant');
 
 const Signup = require('./modules/auth/signup');
-const Login = require('./modules/auth/login');
+const Signin = require('./modules/auth/signin');
 const Order = require('./modules/order');
 const Product = require('./modules/product');
 const { getTokenFromHeaders, verify, unauthenticated } = require('./modules/common/utils/jwt');
 
 app.use(express.json());
+app.use(nocache());
 
 app.use('/v1/order', (req, res, next) => {
   const token = getTokenFromHeaders(req.headers.authorization);
@@ -36,9 +38,9 @@ app.post('/v1/auth/signup', (req, res) => {
     .catch((err) => res.status(err.code).send({ error: err.message }));
 });
 
-app.post('/v1/auth/login', (req, res) => {
+app.post('/v1/auth/signin', (req, res) => {
   const { body: { user } } = req;
-  return Login.validate(user)
+  return Signin.validate(user)
     .then((data) => { res.status(HTTP.OK).json(data); })
     .catch((err) => res.status(err.code).send({ error: err.message }));
 });
