@@ -1,11 +1,17 @@
 const clone = require('lodash.clonedeep');
 
 const Factory = require('../../database/factory');
+const { BadRequest } = require('../common/errors');
 
-module.exports.create = async (input) => {
-  const { repositories: { orderRepository, productRepository } } = await Factory.database();
+module.exports.create = async (input, email) => {
+  const { repositories } = await Factory.database();
+  const { orderRepository, productRepository, userRepository } = repositories;
+  const { id } = await userRepository.findByEmail(email);
+
+  if (!id) { throw new BadRequest(`${email} invalid user.`); }
+
   const order = clone(input);
-  order.userId = '909683dd-4ca6-4842-8038-aafe948dbe1f';
+  order.userId = id;
 
   const persistedOrder = await orderRepository.create(order);
 
