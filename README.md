@@ -278,15 +278,17 @@ For an invalid Authorization Bearer.
 ## Product Report
 ### Description: `Allows to obtain product report`
 ### URL: `http://localhost:3000/v1/product`
-### Content-Type: `application/json`
+
 ### Method: `GET`
+### Query params:
+	- init: Initial date
+	- end: End date
 ### Success Response: `200 OK`
 
 
 ```sh
 # CURL
-curl --write-out "\n status code: %{http_code} " --location --request GET 'http://localhost:3000/v1/product?init=2021-08-02&end=2021-08-03' \
---header 'Content-Type: application/json'
+curl --location --request GET 'http://localhost:3000/v1/product?init=2021-08-02&end=2021-08-02'
 ```
 
 ```sh
